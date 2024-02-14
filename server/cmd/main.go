@@ -30,5 +30,6 @@ func main() {
 	userHandler := handler.NewUserHandler(userService)
 	productHandler := handler.NewProductHandler(productService)
 
-	router.InitRouter(userHandler, productHandler)
+	r := router.InitRouter(userHandler, productHandler)
+	router.Start(r, "0.0.0.0:8080")
 }
