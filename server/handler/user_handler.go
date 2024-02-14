@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"server/service"
 )
@@ -13,10 +14,14 @@ func NewUserHandler(service *service.UserService) *UserHandler {
 	return &UserHandler{services: service}
 }
 
-func (uh *UserHandler) SignIn(c *gin.Context) {
+func (uh *UserHandler) Login(c *gin.Context) {
 
 }
 
 func (uh *UserHandler) SignUp(c *gin.Context) {
 
+}
+
+func (uh *UserHandler) Test(c *gin.Context) {
+	fmt.Println("!!!!! TEST")
 }
