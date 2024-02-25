@@ -1,0 +1,136 @@
+body {
+    background-color: #000000;
+}
+
+form {
+    background-image: linear-gradient(
+            to bottom,
+            rgb(128, 139, 150),
+            rgba(128, 139, 150, 0.111)
+    );
+    padding: 20px;
+    padding-top: 40px;
+    margin: auto;
+    margin-top: 120px;
+    border-radius: 10px;
+    width: 480px;
+    backdrop-filter: blur(10px);
+}
+
+fieldset {
+    border: none;
+    border-radius: 5%;
+    font-size: 20px;
+    font-family: "Vollkorn SC", serif;
+}
+
+h1 {
+    font-family: "Oi", cursive;
+    font-weight: 10;
+    font-size: 40px;
+    color: rgb(255, 240, 243);
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+
+p {
+    color: white;
+}
+.input_value1,
+.input_value2,
+.input_value3 {
+    font-size: 17px;
+    font-family: "Vollkorn SC", serif;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(128, 139, 150);
+    padding: 15px;
+    width: auto;
+    outline: none;
+    box-shadow: 0 5px 15px rgba(192, 109, 109, 0.436);
+
+    grid-column: 1/2;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: white;
+}
+
+.input_value1::placeholder,
+.input_value2::placeholder,
+.input_value3::placeholder {
+    color: #ffffff;
+}
+
+.submit {
+    font-size: 17px;
+    font-family: "Vollkorn SC", serif;
+    padding: 13px 20px;
+    background-color: rgb(222, 124, 139);
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(192, 109, 109, 0.436);
+    text-align: center;
+}
+
+.submit:hover {
+    background-color: rgba(222, 124, 139, 0.714);
+}
+
+.p-submit {
+    margin-top: 20px;
+    grid-column: 1 / 2;
+    grid-row: 4/5;
+}
+
+.grid-container {
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr 80px;
+}
+
+.input_value::placeholder {
+    color: #ffffff;
+}
+
+.button {
+    font-size: 17px;
+    font-family: "Vollkorn SC", serif;
+    color: rgba(255, 255, 255, 0.674);
+    text-decoration: none;
+    grid-column: 1 / 2;
+    grid-row: 5/6;
+    margin-top: 30px;
+}
+
+.button:hover {
+    color: #ffffff6f;
+}
+
+.button:focus {
+    color: rgb(255, 255, 255);
+}
+
+form {
+    margin-bottom: 100px;
+}
+
+@media (max-width: 570px) {
+    form {
+        width: 100%;
+        padding: 0;
+    }
+
+    h1 {
+        font-size: 27px;
+        margin-top: 50px;
+    }
+}
+
+@media (max-width: 350px) {
+    h1 {
+        font-size: 23px;
+    }
+}
