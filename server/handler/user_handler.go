@@ -1,27 +1,31 @@
 package handler
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
+	"net/http"
+	"server/entity"
+	"server/response"
 	"server/service"
 )
 
 type UserHandler struct {
-	services *service.UserService
+	serv service.UserServiceImpl
 }
 
-func NewUserHandler(service *service.UserService) *UserHandler {
-	return &UserHandler{services: service}
+func NewUserHandler(serv service.UserServiceImpl) *UserHandler {
+	return &UserHandler{serv}
 }
 
-func (uh *UserHandler) Login(c *gin.Context) {
-
-}
-
-func (uh *UserHandler) SignUp(c *gin.Context) {
-
+func (uh *UserHandler) GetUser(c *gin.Context) {
+	var input *entity.User
+	err := c.BindJSON(input)
+	if err != nil {
+		response.NewError(c, err.Error(), http.StatusBadRequest)
+	}
+	uh.serv.GetUser(input)
 }
 
 func (uh *UserHandler) Test(c *gin.Context) {
-	fmt.Println("!!!!! TEST")
+	str := uh.serv.Test()
+	c.JSON(http.StatusOK, str)
 }

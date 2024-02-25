@@ -5,15 +5,14 @@ import (
 	"server/handler"
 )
 
-func InitRouter(userHandler *handler.UserHandler, productHandler *handler.ProductHandler) *gin.Engine {
+func InitRouter(h *handler.Handler) *gin.Engine {
 	router := gin.New()
 	auth := router.Group("/auth")
 	{
-		auth.POST("/signup", userHandler.SignUp)
-		auth.POST("/login", userHandler.Login)
+		auth.POST("/signup", h.SignUp)
+		auth.POST("/login", h.Login)
 	}
-
-	router.GET("/", userHandler.Test)
+	router.GET("/", h.Test)
 
 	return router
 }

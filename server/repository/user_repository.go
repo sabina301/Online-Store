@@ -1,10 +1,19 @@
 package repository
 
-import "github.com/jmoiron/sqlx"
+import (
+	"errors"
+	"github.com/jmoiron/sqlx"
+	"server/entity"
+)
 
 type UserRepository struct {
+	db *sqlx.DB
 }
 
-func NewUserRepository(database *sqlx.DB) *UserRepository {
-	return &UserRepository{}
+func NewUserRepository(db *sqlx.DB) *UserRepository {
+	return &UserRepository{db}
+}
+
+func (ur *UserRepository) GetUser(user *entity.User) (int, error) {
+	return 1, errors.New("lol")
 }
