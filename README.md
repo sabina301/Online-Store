@@ -2,7 +2,7 @@
 
 This is a code for a online store!)
 
-Used: Go, PostgreSQL, Docker, html, css, js
+Used: Go, PostgreSQL, Docker, html, js
 
 ~~
 
