@@ -7,7 +7,8 @@ import (
 )
 
 const (
-	connStr = "host=%s port=%s user=%s password=%s dbname=%s sslmode=%s"
+	connStr    = "host=%s port=%s user=%s password=%s dbname=%s sslmode=%s"
+	usersTable = "users"
 )
 
 type DatabaseConfig struct {
@@ -37,5 +38,8 @@ func (d *Database) GetDB() *sqlx.DB {
 }
 
 func (d *Database) CloseDB() {
-	d.db.Close()
+	err := d.db.Close()
+	if err != nil {
+		return
+	}
 }
