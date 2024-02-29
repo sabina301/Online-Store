@@ -1,8 +1,10 @@
-port: "8080"
+port: 8080
 
 db:
-  host: "localhost"
-  port: "5432"
-  user: "postgres"
-  dbname: "online-store-db"
-  sslmode: "disable"
+  host: ps-psql
+  port: 5432
+  user: postgres
+  password: Ertyu55555
+  database: online-store-db
+  sslmode: disable
+

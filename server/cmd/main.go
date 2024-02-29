@@ -5,7 +5,6 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"log"
-	"os"
 	"server/handler"
 	"server/repository"
 	"server/router"
@@ -26,16 +25,18 @@ func main() {
 		Host:     viper.GetString("db.host"),
 		Port:     viper.GetString("db.port"),
 		User:     viper.GetString("db.user"),
-		Password: os.Getenv("DB_PASSWORD"),
-		DBName:   viper.GetString("db.dbname"),
+		Password: viper.GetString("db.password"),
+		DBName:   viper.GetString("db.database"),
 		SSLMode:  viper.GetString("db.sslmode"),
 	}
+
 	db, err := repository.NewDatabase(dbConf)
 
+	log.Println("OUR DB = ", db)
 	if err != nil {
 		log.Fatalf("Error: unable to connect to database")
 	}
-
+	defer db.CloseDB()
 	rep := repository.NewRepository(db.GetDB())
 	serv := service.NewService(rep)
 	hand := handler.NewHandler(serv)
@@ -43,10 +44,12 @@ func main() {
 	r := router.InitRouter(hand)
 
 	srv := new(router.Server)
+
 	err = srv.Start(r, viper.GetString("port"))
 	if err != nil {
 		logrus.Fatal("Cant run")
 	}
+
 }
 
 func initConfig() error {

@@ -1,14 +1,13 @@
 package repository
 
 import (
-	"fmt"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )
 
 const (
-	connStr    = "host=%s port=%s user=%s password=%s dbname=%s sslmode=%s"
-	usersTable = "users"
+	connStr   = "host=%s port=%s user=%s password=%s dbname=%s sslmode=%s"
+	userTable = "users"
 )
 
 type DatabaseConfig struct {
@@ -25,8 +24,7 @@ type Database struct {
 }
 
 func NewDatabase(conf DatabaseConfig) (*Database, error) {
-	db, err := sqlx.Open("postgres",
-		fmt.Sprintf(connStr, conf.Host, conf.Port, conf.User, conf.Password, conf.DBName, conf.SSLMode))
+	db, err := sqlx.Open("postgres", "host=ps-psql port=5432 user=postgres password=Ertyu55555 dbname=online-store-db sslmode=disable")
 	if err != nil {
 		return nil, err
 	}
