@@ -17,7 +17,7 @@ func NewAuthHandler(serv service.AuthServiceImpl) *AuthHandler {
 }
 
 func (ah *AuthHandler) Login(c *gin.Context) {
-	var input *entity.User
+	var input entity.User
 	err := c.BindJSON(&input)
 	if err != nil {
 		response.NewError(c, err.Error(), http.StatusBadRequest)
@@ -29,5 +29,18 @@ func (ah *AuthHandler) Login(c *gin.Context) {
 }
 
 func (ah *AuthHandler) SignUp(c *gin.Context) {
-
+	var input entity.User
+	err := c.BindJSON(&input)
+	if err != nil {
+		response.NewError(c, err.Error(), http.StatusBadRequest)
+		return
+	}
+	id, err := ah.serv.SignUp(input)
+	if err != nil {
+		response.NewError(c, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"id": id,
+	})
 }
