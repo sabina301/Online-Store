@@ -8,34 +8,36 @@ import (
 	"server/service"
 )
 
-type AuthHandler struct {
-	serv service.AuthServiceImpl
+type inputUser struct {
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
 }
 
-func NewAuthHandler(serv service.AuthServiceImpl) *AuthHandler {
-	return &AuthHandler{serv}
-}
-
-func (ah *AuthHandler) Login(c *gin.Context) {
-	var input entity.User
+func (h *Handler) Login(c *gin.Context) {
+	var input inputUser
 	err := c.BindJSON(&input)
 	if err != nil {
 		response.NewError(c, err.Error(), http.StatusBadRequest)
+		return
 	}
-	_, err = ah.serv.Login(input)
+	token, err := h.serv.GenerateToken(input.Username, input.Password)
 	if err != nil {
-		response.NewError(c, err.Error(), http.StatusBadRequest)
+		response.NewError(c, err.Error(), http.StatusInternalServerError)
+		return
 	}
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"token": token,
+	})
 }
 
-func (ah *AuthHandler) SignUp(c *gin.Context) {
+func (h *Handler) SignUp(c *gin.Context) {
 	var input entity.User
 	err := c.BindJSON(&input)
 	if err != nil {
 		response.NewError(c, err.Error(), http.StatusBadRequest)
 		return
 	}
-	id, err := ah.serv.SignUp(input)
+	id, err := h.serv.SignUp(input)
 	if err != nil {
 		response.NewError(c, err.Error(), http.StatusInternalServerError)
 		return
@@ -43,4 +45,8 @@ func (ah *AuthHandler) SignUp(c *gin.Context) {
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"id": id,
 	})
+}
+
+func (h *Handler) GetService() service.AuthServiceImpl {
+	return h.serv
 }

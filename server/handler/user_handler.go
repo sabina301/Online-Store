@@ -5,27 +5,20 @@ import (
 	"net/http"
 	"server/entity"
 	"server/response"
-	"server/service"
 )
 
-type UserHandler struct {
-	serv service.UserServiceImpl
-}
-
-func NewUserHandler(serv service.UserServiceImpl) *UserHandler {
-	return &UserHandler{serv}
-}
-
-func (uh *UserHandler) GetUser(c *gin.Context) {
+func (h *Handler) GetUser(c *gin.Context) {
 	var input *entity.User
 	err := c.BindJSON(input)
 	if err != nil {
 		response.NewError(c, err.Error(), http.StatusBadRequest)
 	}
-	uh.serv.GetUser(input)
+	h.serv.GetUser(input)
 }
 
-func (uh *UserHandler) Test(c *gin.Context) {
-	str := uh.serv.Test()
-	c.JSON(http.StatusOK, str)
+func (h *Handler) Test(c *gin.Context) {
+	id, _ := c.Get("userId")
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"id": id,
+	})
 }
