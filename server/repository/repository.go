@@ -20,6 +20,7 @@ func NewRepository(db *sqlx.DB) *Repository {
 type AuthRepositoryImpl interface {
 	Login(user entity.User) (int, error)
 	SignUp(user entity.User) (int, error)
+	GetUser(username string, passwordHash string) (entity.User, error)
 }
 
 type UserRepositoryImpl interface {

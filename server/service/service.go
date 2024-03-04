@@ -20,6 +20,8 @@ func NewService(repo *repository.Repository) *Service {
 type AuthServiceImpl interface {
 	Login(user entity.User) (int, error)
 	SignUp(user entity.User) (int, error)
+	GenerateToken(username string, password string) (string, error)
+	ParseToken(token string) (int, error)
 }
 
 type UserServiceImpl interface {

@@ -3,8 +3,12 @@ package service
 import (
 	"crypto/sha256"
 	"fmt"
+	"github.com/golang-jwt/jwt/v5"
+	"log"
+	"os"
 	"server/entity"
 	"server/repository"
+	"time"
 )
 
 const (
@@ -28,9 +32,53 @@ func (as *AuthService) Login(user entity.User) (int, error) {
 	return as.rep.Login(user)
 }
 
+func (as *AuthService) GenerateToken(username string, password string) (string, error) {
+	user, err := as.rep.GetUser(username, generatePasswordHash(password))
+	if err != nil {
+		return "", err
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"user_id": user.Id,
+		"exp":     time.Now().Add(time.Hour * 24).Unix(),
+	})
+
+	tokenStr, err := token.SignedString([]byte(os.Getenv("jwtKey")))
+	if err != nil {
+		return "", err
+	}
+	return tokenStr, nil
+}
+
 func generatePasswordHash(password string) string {
 	hash := sha256.New()
 	hash.Write([]byte(password))
 
 	return fmt.Sprintf("%x", hash.Sum([]byte(salt)))
+}
+
+func (as *AuthService) ParseToken(tokenString string) (int, error) {
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		// Проверяем метод подписи токена
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("неподдерживаемый метод подписи: %v", token.Header["alg"])
+		}
+		// Возвращаем ключ для расшифровки токена
+		return []byte(os.Getenv("jwtKey")), nil
+	})
+
+	if err != nil {
+		log.Println("Invalid token: ", err)
+		return 0, err
+	}
+
+	// Проверяем, если токен валиден
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		userIdFloat := claims["user_id"].(float64)
+		userId := int(userIdFloat)
+		return userId, nil
+	} else {
+		return -1, err
+	}
+
 }

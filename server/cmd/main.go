@@ -5,6 +5,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"log"
+	"os"
 	"server/handler"
 	"server/repository"
 	"server/router"
@@ -25,14 +26,13 @@ func main() {
 		Host:     viper.GetString("db.host"),
 		Port:     viper.GetString("db.port"),
 		User:     viper.GetString("db.user"),
-		Password: viper.GetString("db.password"),
+		Password: os.Getenv("db_password"),
 		DBName:   viper.GetString("db.database"),
 		SSLMode:  viper.GetString("db.sslmode"),
 	}
 
 	db, err := repository.NewDatabase(dbConf)
 
-	log.Println("OUR DB = ", db)
 	if err != nil {
 		log.Fatalf("Error: unable to connect to database")
 	}

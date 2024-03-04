@@ -14,7 +14,10 @@ func InitRouter(h *handler.Handler) *gin.Engine {
 		auth.POST("/signup", h.SignUp)
 		auth.POST("/login", h.Login)
 	}
-	router.GET("/", h.Test)
+	api := router.Group("/test", h.UserIdentity)
+	{
+		api.GET("/t", h.Test)
+	}
 
 	return router
 }
