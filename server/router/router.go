@@ -11,13 +11,26 @@ func InitRouter(h *handler.Handler) *gin.Engine {
 	router := gin.New()
 	auth := router.Group("/auth")
 	{
+		auth.GET("/signup", func(c *gin.Context) {
+			c.File("../client/signup.html")
+		})
+		auth.GET("/login", func(c *gin.Context) {
+			c.File("../client/login.html")
+		})
 		auth.POST("/signup", h.SignUp)
 		auth.POST("/login", h.Login)
 	}
-	api := router.Group("/test", h.UserIdentity)
+	api := router.Group("/api", h.UserIdentity)
 	{
-		api.GET("/t", h.Test)
+		api.GET("/t", func(c *gin.Context) {
+			c.File("../client/index.html")
+		})
+
 	}
+	router.GET("/mainpage", func(c *gin.Context) {
+		c.File("../client/index.html")
+	})
+	router.Static("/js", "../client/js")
 
 	return router
 }

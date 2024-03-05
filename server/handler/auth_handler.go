@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"server/entity"
 	"server/response"
-	"server/service"
 )
 
 type inputUser struct {
@@ -25,6 +24,9 @@ func (h *Handler) Login(c *gin.Context) {
 		response.NewError(c, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	c.SetCookie("token", token, 3600, "/", "", false, true)
+
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"token": token,
 	})
@@ -45,8 +47,4 @@ func (h *Handler) SignUp(c *gin.Context) {
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"id": id,
 	})
-}
-
-func (h *Handler) GetService() service.AuthServiceImpl {
-	return h.serv
 }

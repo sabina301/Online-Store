@@ -44,6 +44,7 @@ func (as *AuthService) GenerateToken(username string, password string) (string, 
 	})
 
 	tokenStr, err := token.SignedString([]byte(os.Getenv("jwtKey")))
+
 	if err != nil {
 		return "", err
 	}
@@ -63,7 +64,6 @@ func (as *AuthService) ParseToken(tokenString string) (int, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("неподдерживаемый метод подписи: %v", token.Header["alg"])
 		}
-		// Возвращаем ключ для расшифровки токена
 		return []byte(os.Getenv("jwtKey")), nil
 	})
 
