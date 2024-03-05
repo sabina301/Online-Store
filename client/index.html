@@ -1,68 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <link rel="icon" href="img/icon.png" />
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Магазин одежды</title>S
-</head>
-<body>
-<header>
-  <div class="menu-toggle">
-    <div class="line line-1"></div>
-    <div class="line line-2"></div>
-    <div class="line line-3"></div>
-  </div>
-  <nav class="menu">
-    <ul>
-      <li><a href="catalog.html">Женщинам</a></li>
-      <li><a href="catalog.html">Мужчинам</a></li>
-      <li><a href="profile.html">Профиль</a></li>
-      <li><a href="cart.html">Корзина</a></li>
-    </ul>
-  </nav>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Магазин</title>
+  </head>
+  <body>
+    <header>
+      <nav class="menu">
+        <ul>
+          <li><a href="catalog.html">Catalog</a></li>
+          <li><a href="profile.html">Profile</a></li>
+          <li><a href="cart.html">Cart</a></li>
+          <a id="login" href="/auth/login">Login</a>
+        </ul>
+      </nav>
+    </header>
 
-  <div class="shop-head">
-    <h1 class="shop-name">everyday lifestyle</h1>
-    <div class="login-block">
-      <a class="login" href="login.html">Войти</a>
-    </div>
-  </div>
-
-  <!--NAVBAR-->
-  <nav class="navbar">
-    <ul class="ul-navbar">
-      <li class="li-navbar">
-        <a class="navbar-link" href="catalog.html">Женщинам</a>
-      </li>
-      <li class="li-navbar">
-        <a class="navbar-link" href="catalog.html">Мужчинам</a>
-      </li>
-      <li></li>
-      <li></li>
-      <li class="li-navbar">
-        <a class="navbar-link" href="profile.html">Профиль</a>
-      </li>
-
-      <li class="li-navbar">
-        <a class="navbar-link" href="cart.html">Корзина</a>
-      </li>
-    </ul>
-  </nav>
-
-</header>
-
-<main>
-  <section class="main-section">
-    <div class="text">Новинки</div>
-    <div id="new-container"></div>
-  </section>
-
-  <section class="main-section2">
-    <div class="text">Хиты</div>
-    <div id="hit-container"></div>
-  </section>
-</main>
-</body>
-
+    <main>
+      <section class="main-section">
+        <h1>Recommendations:</h1>
+        <div id="recommendations"></div>
+      </section>
+    </main>
+    <script src="/js/index.js"></script>
+  </body>
 </html>
