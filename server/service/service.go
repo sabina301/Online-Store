@@ -21,7 +21,7 @@ type AuthServiceImpl interface {
 	Login(user entity.User) (int, error)
 	SignUp(user entity.User) (int, error)
 	GenerateToken(username string, password string) (string, error)
-	ParseToken(token string) (int, error)
+	ParseToken(token string) (int, string, error)
 	CreateAdmin() (int, error)
 }
 

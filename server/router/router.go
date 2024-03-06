@@ -27,6 +27,10 @@ func InitRouter(h *handler.Handler) *gin.Engine {
 		})
 
 	}
+	router.GET("/catalog", func(c *gin.Context) {
+		c.File("../client/catalog.html")
+	})
+	router.GET("/catalog/getrole", h.GetRole)
 	router.GET("/mainpage", func(c *gin.Context) {
 		c.File("../client/index.html")
 	})

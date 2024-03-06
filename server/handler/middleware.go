@@ -26,12 +26,11 @@ func (h *Handler) UserIdentity(c *gin.Context) {
 	} else {
 		token = cookie
 	}
-
-	userId, err := h.serv.ParseToken(token)
+	userId, userRole, err := h.serv.ParseToken(token)
 	if err != nil {
 		response.NewError(c, "Invalid token", http.StatusUnauthorized)
 		return
 	}
-
 	c.Set("userId", userId)
+	c.Set("role", userRole)
 }

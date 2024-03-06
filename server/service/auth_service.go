@@ -40,6 +40,7 @@ func (as *AuthService) GenerateToken(username string, password string) (string, 
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"user_id": user.Id,
+		"role":    user.Role,
 		"exp":     time.Now().Add(time.Hour * 24).Unix(),
 	})
 
@@ -58,27 +59,29 @@ func generatePasswordHash(password string) string {
 	return fmt.Sprintf("%x", hash.Sum([]byte(salt)))
 }
 
-func (as *AuthService) ParseToken(tokenString string) (int, error) {
+func (as *AuthService) ParseToken(tokenString string) (int, string, error) {
+	// Парсим по ключу
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		// Проверяем метод подписи токена
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("неподдерживаемый метод подписи: %v", token.Header["alg"])
+			return nil, fmt.Errorf("Wrong method: %v", token.Header["alg"])
 		}
 		return []byte(os.Getenv("jwtKey")), nil
 	})
 
 	if err != nil {
 		log.Println("Invalid token: ", err)
-		return 0, err
+		return 0, "", err
 	}
 
 	// Проверяем, если токен валиден
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		userIdFloat := claims["user_id"].(float64)
 		userId := int(userIdFloat)
-		return userId, nil
+		userRole := claims["role"].(string)
+		return userId, userRole, nil
 	} else {
-		return -1, err
+		return -1, "", err
 	}
 
 }

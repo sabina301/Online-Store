@@ -48,3 +48,14 @@ func (h *Handler) SignUp(c *gin.Context) {
 		"id": id,
 	})
 }
+
+func (h *Handler) GetRole(c *gin.Context) {
+	token, err := c.Cookie("token")
+	if err != nil {
+		response.NewError(c, err.Error(), http.StatusUnauthorized)
+	}
+	_, role, err := h.serv.ParseToken(token)
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"role": role,
+	})
+}
