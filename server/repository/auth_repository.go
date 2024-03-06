@@ -31,7 +31,7 @@ func (ar *AuthRepository) SignUp(user entity.User) (int, error) {
 
 func (ar *AuthRepository) GetUser(username string, passwordHash string) (entity.User, error) {
 	var user entity.User
-	query := "SELECT id, username, password_hash, role AS password FROM users WHERE username=$1 AND password_hash=$2"
+	query := "SELECT id, username, password_hash AS password, role  FROM users WHERE username=$1 AND password_hash=$2"
 	err := ar.db.Get(&user, query, username, passwordHash)
 	return user, err
 }
