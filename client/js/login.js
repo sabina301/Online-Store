@@ -15,7 +15,6 @@ document
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("DATA = ", data);
         if (data.token == "") {
         } else {
           let jwt = data.token;
