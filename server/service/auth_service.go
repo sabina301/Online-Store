@@ -82,3 +82,13 @@ func (as *AuthService) ParseToken(tokenString string) (int, error) {
 	}
 
 }
+
+func (as *AuthService) CreateAdmin() (int, error) {
+	password := os.Getenv("admin_password")
+	passwordHash := generatePasswordHash(password)
+	adminId, err := as.rep.CreateAdmin("admin", passwordHash)
+	if err != nil {
+		return -1, err
+	}
+	return adminId, nil
+}

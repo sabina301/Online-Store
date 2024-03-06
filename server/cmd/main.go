@@ -44,7 +44,10 @@ func main() {
 	r := router.InitRouter(hand)
 
 	srv := new(router.Server)
-
+	_, err = serv.CreateAdmin()
+	if err != nil {
+		logrus.Fatal("Cant create admin")
+	}
 	err = srv.Start(r, viper.GetString("port"))
 	if err != nil {
 		logrus.Fatal("Cant run")

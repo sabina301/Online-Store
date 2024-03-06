@@ -21,6 +21,7 @@ type AuthRepositoryImpl interface {
 	Login(user entity.User) (int, error)
 	SignUp(user entity.User) (int, error)
 	GetUser(username string, passwordHash string) (entity.User, error)
+	CreateAdmin(username string, passwordHash string) (int, error)
 }
 
 type UserRepositoryImpl interface {
