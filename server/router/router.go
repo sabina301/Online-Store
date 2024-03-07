@@ -20,12 +20,11 @@ func InitRouter(h *handler.Handler) *gin.Engine {
 		auth.POST("/signup", h.SignUp)
 		auth.POST("/login", h.Login)
 	}
-	api := router.Group("/api", h.UserIdentity)
+	api := router.Group("/admin", h.UserIdentity)
 	{
-		api.GET("/t", func(c *gin.Context) {
-			c.File("../client/index.html")
+		api.GET("/catalog/edit", func(c *gin.Context) {
+			c.File("../client/catalog_add.html")
 		})
-
 	}
 	router.GET("/catalog", func(c *gin.Context) {
 		c.File("../client/catalog.html")

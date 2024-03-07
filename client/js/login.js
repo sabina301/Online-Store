@@ -15,10 +15,11 @@ document
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.token == "") {
+        // console.log("JWT = ", data.token);
+        if (data.token === undefined || data.token == "") {
+          console.log("Токен не определен");
         } else {
           let jwt = data.token;
-
           goToMainPage(jwt);
         }
       })
@@ -26,7 +27,7 @@ document
   });
 
 function goToMainPage(jwt) {
-  fetch("/api/t", {
+  fetch("/catalog", {
     method: "GET",
     headers: {
       Authorization: "Bearer " + jwt,
@@ -34,7 +35,7 @@ function goToMainPage(jwt) {
   })
     .then((response) => {
       if (response.ok) {
-        window.location.href = "/api/t";
+        window.location.href = "/catalog";
       } else {
         console.error("Failed to authenticate user");
       }

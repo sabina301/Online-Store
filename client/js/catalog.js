@@ -1,4 +1,5 @@
 const addProductBtn = document.getElementById("addProduct");
+addProductBtn.style.display = "none";
 
 window.addEventListener("load", function (event) {
   event.preventDefault();
@@ -17,4 +18,9 @@ window.addEventListener("load", function (event) {
       }
     })
     .catch((error) => console.error("Ошибка", error));
+});
+
+addProductBtn.addEventListener("click", function (event) {
+  event.preventDefault();
+  window.location.href = "/admin/catalog/edit";
 });
