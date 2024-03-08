@@ -30,6 +30,7 @@ func InitRouter(h *handler.Handler) *gin.Engine {
 		})
 		admin.POST("/catalog/edit/add", h.AddProduct)
 	}
+	router.GET("/catalog/get/products/all", h.GetAllProducts)
 	router.GET("/catalog", func(c *gin.Context) {
 		c.File("../client/catalog.html")
 	})

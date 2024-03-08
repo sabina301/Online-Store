@@ -1,11 +1,22 @@
 package service
 
-import "server/repository"
+import (
+	"server/entity"
+	"server/repository"
+)
 
 type ProductService struct {
-	rep *repository.ProductRepository
+	rep repository.ProductRepositoryImpl
 }
 
-func NewProductService(productRep *repository.ProductRepository) *ProductService {
-	return &ProductService{}
+func NewProductService(rep repository.ProductRepositoryImpl) *ProductService {
+	return &ProductService{rep: rep}
+}
+
+func (ps *ProductService) GetAllProducts() ([]entity.Product, error) {
+	products, err := ps.rep.GetAllProducts()
+	if err != nil {
+		return nil, err
+	}
+	return products, nil
 }

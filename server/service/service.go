@@ -9,6 +9,7 @@ type Service struct {
 	AuthServiceImpl
 	UserServiceImpl
 	AdminCatalogServiceImpl
+	ProductServiceImpl
 }
 
 func NewService(rep *repository.Repository) *Service {
@@ -16,6 +17,7 @@ func NewService(rep *repository.Repository) *Service {
 		AuthServiceImpl:         NewAuthService(rep.AuthRepositoryImpl),
 		UserServiceImpl:         NewUserService(rep.UserRepositoryImpl),
 		AdminCatalogServiceImpl: NewAdminCatalogService(rep.ProductRepositoryImpl),
+		ProductServiceImpl:      NewProductService(rep.ProductRepositoryImpl),
 	}
 }
 
@@ -34,4 +36,8 @@ type UserServiceImpl interface {
 
 type AdminCatalogServiceImpl interface {
 	AddProduct(product entity.Product) (int, error)
+}
+
+type ProductServiceImpl interface {
+	GetAllProducts() ([]entity.Product, error)
 }

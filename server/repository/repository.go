@@ -32,4 +32,5 @@ type UserRepositoryImpl interface {
 
 type ProductRepositoryImpl interface {
 	AddProduct(category string, name string, color string, description string, price uint32) (int, error)
+	GetAllProducts() ([]entity.Product, error)
 }

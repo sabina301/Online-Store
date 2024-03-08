@@ -1,4 +1,5 @@
 const addProductBtn = document.getElementById("addProduct");
+const productContainer = document.getElementById("container");
 addProductBtn.style.display = "none";
 
 window.addEventListener("load", function (event) {
@@ -16,6 +17,28 @@ window.addEventListener("load", function (event) {
       } else {
         addProductBtn.style.display = "none";
       }
+    })
+    .catch((error) => console.error("Ошибка", error));
+
+  fetch("/catalog/get/products/all", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      data.forEach((product) => {
+        var div = document.createElement("div");
+        var name = document.createElement("p");
+        var price = document.createElement("p");
+        name.textContent = product.name;
+        price.textContent = product.price;
+        div.appendChild(name);
+        div.appendChild(price);
+        productContainer.appendChild(div);
+      });
+      console.log(data);
     })
     .catch((error) => console.error("Ошибка", error));
 });

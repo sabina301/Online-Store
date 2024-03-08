@@ -1,6 +1,9 @@
 package repository
 
-import "github.com/jmoiron/sqlx"
+import (
+	"github.com/jmoiron/sqlx"
+	"server/entity"
+)
 
 type ProductRepository struct {
 	db *sqlx.DB
@@ -21,4 +24,26 @@ func (pr *ProductRepository) AddProduct(category string, name string, color stri
 		return -1, err
 	}
 	return id, nil
+}
+
+func (pr *ProductRepository) GetAllProducts() ([]entity.Product, error) {
+	query := "SELECT * FROM products"
+	rows, err := pr.db.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	var products []entity.Product
+	for rows.Next() {
+		var product entity.Product
+		err := rows.Scan(&product.Id, &product.Category, &product.Name, &product.Color, &product.Description, &product.Price)
+		if err != nil {
+			return nil, err
+		}
+		products = append(products, product)
+	}
+	err = rows.Err()
+	if err != nil {
+		return nil, err
+	}
+	return products, nil
 }
