@@ -8,12 +8,14 @@ import (
 type Service struct {
 	AuthServiceImpl
 	UserServiceImpl
+	AdminCatalogServiceImpl
 }
 
-func NewService(repo *repository.Repository) *Service {
+func NewService(rep *repository.Repository) *Service {
 	return &Service{
-		AuthServiceImpl: NewAuthService(repo.AuthRepositoryImpl),
-		UserServiceImpl: NewUserService(repo.UserRepositoryImpl),
+		AuthServiceImpl:         NewAuthService(rep.AuthRepositoryImpl),
+		UserServiceImpl:         NewUserService(rep.UserRepositoryImpl),
+		AdminCatalogServiceImpl: NewAdminCatalogService(rep.ProductRepositoryImpl),
 	}
 }
 
@@ -28,4 +30,8 @@ type AuthServiceImpl interface {
 type UserServiceImpl interface {
 	GetUser(user *entity.User) (int, error)
 	Test() string
+}
+
+type AdminCatalogServiceImpl interface {
+	AddProduct(product entity.Product) (int, error)
 }
