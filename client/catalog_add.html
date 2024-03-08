@@ -6,6 +6,50 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>LOL</h1>
+    <h1>Add some product:</h1>
+    <form id="productForm" name="productForm">
+      <input list="categories" id="category" name="category" />
+      <datalist id="categories">
+        <option value="household products"></option>
+        <option value="cloth"></option>
+        <option value="hygiene"></option>
+        <option value="food"></option>
+        <option value="office"></option>
+      </datalist>
+      <input
+        type="text"
+        id="name"
+        placeholder="Product name"
+        autocomplete="off"
+        class="form-control"
+      />
+      <input
+        type="number"
+        id="price"
+        placeholder="Price"
+        autocomplete="off"
+        class="form-control"
+      />
+      <input
+        type="text"
+        id="description"
+        placeholder="Description"
+        autocomplete="off"
+        class="form-control"
+      />
+      <input list="colors" id="color" name="color" />
+      <datalist id="colors">
+        <option value="red"></option>
+        <option value="orange"></option>
+        <option value="yellow"></option>
+        <option value="green"></option>
+        <option value="blue"></option>
+        <option value="black"></option>
+        <option value="white"></option>
+      </datalist>
+
+      <button type="submit">Add</button>
+    </form>
+    <script src="/js/catalog_add.js"></script>
   </body>
 </html>
