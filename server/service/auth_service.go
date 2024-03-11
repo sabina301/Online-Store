@@ -2,6 +2,7 @@ package service
 
 import (
 	"crypto/sha256"
+	"errors"
 	"fmt"
 	"github.com/golang-jwt/jwt/v5"
 	"log"
@@ -28,24 +29,18 @@ func (as *AuthService) SignUp(user entity.User) (int, error) {
 	return as.rep.SignUp(user)
 }
 
-func (as *AuthService) Login(user entity.User) (int, error) {
-	return as.rep.Login(user)
-}
-
 func (as *AuthService) GenerateToken(username string, password string) (string, error) {
 	user, err := as.rep.GetUser(username, generatePasswordHash(password))
 	if err != nil {
-		return "", err
+		log.Println("SSSSSSS1")
+		return "", errors.New("cant generate token")
 	}
-
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"user_id": user.Id,
 		"role":    user.Role,
 		"exp":     time.Now().Add(time.Hour * 24).Unix(),
 	})
-
 	tokenStr, err := token.SignedString([]byte(os.Getenv("jwtKey")))
-
 	if err != nil {
 		return "", err
 	}
