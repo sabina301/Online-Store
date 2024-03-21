@@ -55,33 +55,19 @@ func (mr *MockAuthServiceImplMockRecorder) CreateAdmin() *gomock.Call {
 }
 
 // GenerateToken mocks base method.
-func (m *MockAuthServiceImpl) GenerateToken(username, password string) (string, error) {
+func (m *MockAuthServiceImpl) GenerateToken(username, password string) (string, int, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GenerateToken", username, password)
 	ret0, _ := ret[0].(string)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	ret1, _ := ret[1].(int)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
 }
 
 // GenerateToken indicates an expected call of GenerateToken.
 func (mr *MockAuthServiceImplMockRecorder) GenerateToken(username, password any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenerateToken", reflect.TypeOf((*MockAuthServiceImpl)(nil).GenerateToken), username, password)
-}
-
-// Login mocks base method.
-func (m *MockAuthServiceImpl) Login(user entity.User) (int, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Login", user)
-	ret0, _ := ret[0].(int)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// Login indicates an expected call of Login.
-func (mr *MockAuthServiceImplMockRecorder) Login(user any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Login", reflect.TypeOf((*MockAuthServiceImpl)(nil).Login), user)
 }
 
 // ParseToken mocks base method.
@@ -228,6 +214,20 @@ func (m *MockProductServiceImpl) EXPECT() *MockProductServiceImplMockRecorder {
 	return m.recorder
 }
 
+// AddProductInCart mocks base method.
+func (m *MockProductServiceImpl) AddProductInCart(userId, productId int) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AddProductInCart", userId, productId)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AddProductInCart indicates an expected call of AddProductInCart.
+func (mr *MockProductServiceImplMockRecorder) AddProductInCart(userId, productId any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddProductInCart", reflect.TypeOf((*MockProductServiceImpl)(nil).AddProductInCart), userId, productId)
+}
+
 // GetAllProducts mocks base method.
 func (m *MockProductServiceImpl) GetAllProducts() ([]entity.Product, error) {
 	m.ctrl.T.Helper()
@@ -241,4 +241,80 @@ func (m *MockProductServiceImpl) GetAllProducts() ([]entity.Product, error) {
 func (mr *MockProductServiceImplMockRecorder) GetAllProducts() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllProducts", reflect.TypeOf((*MockProductServiceImpl)(nil).GetAllProducts))
+}
+
+// MockCartServiceImpl is a mock of CartServiceImpl interface.
+type MockCartServiceImpl struct {
+	ctrl     *gomock.Controller
+	recorder *MockCartServiceImplMockRecorder
+}
+
+// MockCartServiceImplMockRecorder is the mock recorder for MockCartServiceImpl.
+type MockCartServiceImplMockRecorder struct {
+	mock *MockCartServiceImpl
+}
+
+// NewMockCartServiceImpl creates a new mock instance.
+func NewMockCartServiceImpl(ctrl *gomock.Controller) *MockCartServiceImpl {
+	mock := &MockCartServiceImpl{ctrl: ctrl}
+	mock.recorder = &MockCartServiceImplMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockCartServiceImpl) EXPECT() *MockCartServiceImplMockRecorder {
+	return m.recorder
+}
+
+// GetProductFromCart mocks base method.
+func (m *MockCartServiceImpl) GetProductFromCart(userId int) ([]entity.Product, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetProductFromCart", userId)
+	ret0, _ := ret[0].([]entity.Product)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetProductFromCart indicates an expected call of GetProductFromCart.
+func (mr *MockCartServiceImplMockRecorder) GetProductFromCart(userId any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetProductFromCart", reflect.TypeOf((*MockCartServiceImpl)(nil).GetProductFromCart), userId)
+}
+
+// MockOrderServiceImpl is a mock of OrderServiceImpl interface.
+type MockOrderServiceImpl struct {
+	ctrl     *gomock.Controller
+	recorder *MockOrderServiceImplMockRecorder
+}
+
+// MockOrderServiceImplMockRecorder is the mock recorder for MockOrderServiceImpl.
+type MockOrderServiceImplMockRecorder struct {
+	mock *MockOrderServiceImpl
+}
+
+// NewMockOrderServiceImpl creates a new mock instance.
+func NewMockOrderServiceImpl(ctrl *gomock.Controller) *MockOrderServiceImpl {
+	mock := &MockOrderServiceImpl{ctrl: ctrl}
+	mock.recorder = &MockOrderServiceImplMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockOrderServiceImpl) EXPECT() *MockOrderServiceImplMockRecorder {
+	return m.recorder
+}
+
+// MakeOrder mocks base method.
+func (m *MockOrderServiceImpl) MakeOrder(userId int) (int, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "MakeOrder", userId)
+	ret0, _ := ret[0].(int)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// MakeOrder indicates an expected call of MakeOrder.
+func (mr *MockOrderServiceImplMockRecorder) MakeOrder(userId any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MakeOrder", reflect.TypeOf((*MockOrderServiceImpl)(nil).MakeOrder), userId)
 }

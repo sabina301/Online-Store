@@ -47,3 +47,34 @@ func (pr *ProductRepository) GetAllProducts() ([]entity.Product, error) {
 	}
 	return products, nil
 }
+
+func (pr *ProductRepository) AddProductInCart(userId int, productId int) error {
+	tx, err := pr.db.Begin()
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	var cartId int
+	query1 := "SELECT cart_id FROM users WHERE id = $1"
+	row1 := tx.QueryRow(query1, userId)
+	err = row1.Scan(&cartId)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	query2 := "INSERT INTO cart_products (cart_id, product_id) VALUES ($1, $2)"
+	_, err = tx.Exec(query2, cartId, productId)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	err = tx.Commit()
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	return nil
+}

@@ -20,3 +20,11 @@ func (ps *ProductService) GetAllProducts() ([]entity.Product, error) {
 	}
 	return products, nil
 }
+
+func (ps *ProductService) AddProductInCart(userId int, productId int) error {
+	err := ps.rep.AddProductInCart(userId, productId)
+	if err != nil {
+		return err
+	}
+	return nil
+}

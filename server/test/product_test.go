@@ -10,7 +10,7 @@ import (
 	"server/entity"
 	"server/handler"
 	"server/service"
-	mock_service "server/service/mocks"
+	"server/service/mocks"
 	"testing"
 )
 

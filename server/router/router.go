@@ -1,6 +1,7 @@
 package router
 
 import (
+	"context"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"server/handler"
@@ -30,6 +31,12 @@ func InitRouter(h *handler.Handler) *gin.Engine {
 		})
 		admin.POST("/catalog/edit/add", h.AddProduct)
 	}
+	router.GET("/user/cart", func(c *gin.Context) {
+		c.File("../client/cart.html")
+	})
+	router.POST("/user/product/add", h.AddProductInCart)
+	router.GET("/user/cart/get", h.GetProductFromCart)
+	router.POST("/user/order/make", h.MakeOrder)
 	router.GET("/catalog/get/products/all", h.GetAllProducts)
 	router.GET("/catalog", func(c *gin.Context) {
 		c.File("../client/catalog.html")
@@ -57,4 +64,8 @@ func (s *Server) Start(r *gin.Engine, port string) error {
 	}
 
 	return s.httpServer.ListenAndServe()
+}
+
+func (s *Server) Finish(c context.Context) error {
+	return s.httpServer.Shutdown(c)
 }

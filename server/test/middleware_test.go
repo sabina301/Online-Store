@@ -8,7 +8,7 @@ import (
 	"net/http/httptest"
 	handler "server/handler"
 	"server/service"
-	mock_service "server/service/mocks"
+	"server/service/mocks"
 	"testing"
 )
 
