@@ -29,11 +29,10 @@ func (as *AuthService) SignUp(user entity.User) (int, error) {
 	return as.rep.SignUp(user)
 }
 
-func (as *AuthService) GenerateToken(username string, password string) (string, error) {
+func (as *AuthService) GenerateToken(username string, password string) (string, int, error) {
 	user, err := as.rep.GetUser(username, generatePasswordHash(password))
 	if err != nil {
-		log.Println("SSSSSSS1")
-		return "", errors.New("cant generate token")
+		return "", 0, errors.New("cant generate token")
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"user_id": user.Id,
@@ -42,9 +41,9 @@ func (as *AuthService) GenerateToken(username string, password string) (string, 
 	})
 	tokenStr, err := token.SignedString([]byte(os.Getenv("jwtKey")))
 	if err != nil {
-		return "", err
+		return "", 0, err
 	}
-	return tokenStr, nil
+	return tokenStr, user.Id, nil
 }
 
 func generatePasswordHash(password string) string {

@@ -10,7 +10,7 @@ import (
 	"server/entity"
 	"server/handler"
 	"server/service"
-	mock_service "server/service/mocks"
+	"server/service/mocks"
 	"testing"
 )
 
@@ -64,26 +64,26 @@ func TestHandler_signUp(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			// Init Dependencies
-			c := gomock.NewController(t)
+			c := gomock.NewController(t) // контроллер для управления моками
 			defer c.Finish()
 
 			repo := mock_service.NewMockAuthServiceImpl(c)
-			test.mockBehavior(repo, test.inputUser)
+			test.mockBehavior(repo, test.inputUser) // определяет поведение мока
 
-			services := &service.Service{AuthServiceImpl: repo}
-			h := handler.NewHandler(services)
+			services := &service.Service{AuthServiceImpl: repo} // подставляем мок в сервис
+			h := handler.NewHandler(services)                   // подставляем в хандлер
 
 			// Init Endpoint
-			r := gin.New()
+			r := gin.New() // создаем новый роутер
 			r.POST("/auth/signup", h.SignUp)
 
 			// Create Request
-			w := httptest.NewRecorder()
+			w := httptest.NewRecorder() // записывающий объект для хранения http ответа
 			req := httptest.NewRequest("POST", "/auth/signup",
 				bytes.NewBufferString(test.inputBody))
 
 			// Make Request
-			r.ServeHTTP(w, req)
+			r.ServeHTTP(w, req) // обрабатываем запрос req  записываем ответ в w
 
 			// Assert
 			assert.Equal(t, w.Code, test.expectedStatusCode)

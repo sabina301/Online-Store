@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
+	"log"
 	"server/entity"
 )
 
@@ -14,17 +14,42 @@ func NewAuthRepository(db *sqlx.DB) *AuthRepository {
 	return &AuthRepository{db}
 }
 
-func (ar *AuthRepository) Login(user entity.User) (int, error) {
-	return 1, gin.Error{}
-}
-
 func (ar *AuthRepository) SignUp(user entity.User) (int, error) {
+	tx, err := ar.db.Begin()
+
+	if err != nil {
+		tx.Rollback()
+		return -1, err
+	}
 	var id int
 	query := "INSERT INTO users (username, password_hash, role) VALUES ($1, $2, $3) RETURNING id"
-	row := ar.db.QueryRow(query, user.Username, user.Password, "user")
-	err := row.Scan(&id)
+	row := tx.QueryRow(query, user.Username, user.Password, "user")
+	err = row.Scan(&id)
 	if err != nil {
-		return 0, err
+		tx.Rollback()
+		return -1, err
+	}
+
+	var cartId int
+	query = "INSERT INTO cart (user_id) VALUES ($1) RETURNING id"
+	row = tx.QueryRow(query, id)
+	err = row.Scan(&cartId)
+	if err != nil {
+		tx.Rollback()
+		return -1, err
+	}
+
+	log.Println("IDDD = ", cartId, id)
+	query = "UPDATE users SET cart_id = $1 WHERE id = $2"
+	_, err = tx.Exec(query, cartId, id)
+	if err != nil {
+		tx.Rollback()
+		return -1, err
+	}
+	err = tx.Commit()
+	if err != nil {
+		tx.Rollback()
+		return -1, err
 	}
 	return id, nil
 }
