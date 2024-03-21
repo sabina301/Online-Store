@@ -5,11 +5,15 @@ import (
 	"server/repository"
 )
 
+//go:generate mockgen -source=service.go -destination=mocks/mock.go
+
 type Service struct {
 	AuthServiceImpl
 	UserServiceImpl
 	AdminCatalogServiceImpl
 	ProductServiceImpl
+	CartServiceImpl
+	OrderServiceImpl
 }
 
 func NewService(rep *repository.Repository) *Service {
@@ -18,13 +22,14 @@ func NewService(rep *repository.Repository) *Service {
 		UserServiceImpl:         NewUserService(rep.UserRepositoryImpl),
 		AdminCatalogServiceImpl: NewAdminCatalogService(rep.ProductRepositoryImpl),
 		ProductServiceImpl:      NewProductService(rep.ProductRepositoryImpl),
+		CartServiceImpl:         NewCartService(rep.CartRepositoryImpl),
+		OrderServiceImpl:        NewOrderService(rep.OrderRepositoryImpl),
 	}
 }
 
 type AuthServiceImpl interface {
-	Login(user entity.User) (int, error)
 	SignUp(user entity.User) (int, error)
-	GenerateToken(username string, password string) (string, error)
+	GenerateToken(username string, password string) (string, int, error)
 	ParseToken(token string) (int, string, error)
 	CreateAdmin() (int, error)
 }
@@ -40,4 +45,13 @@ type AdminCatalogServiceImpl interface {
 
 type ProductServiceImpl interface {
 	GetAllProducts() ([]entity.Product, error)
+	AddProductInCart(userId int, productId int) error
+}
+
+type CartServiceImpl interface {
+	GetProductFromCart(userId int) ([]entity.Product, error)
+}
+
+type OrderServiceImpl interface {
+	MakeOrder(userId int) (int, error)
 }
