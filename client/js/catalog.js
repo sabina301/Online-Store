@@ -1,7 +1,11 @@
 const addProductBtn = document.getElementById("addProduct");
 const productContainer = document.getElementById("container");
 const cart = document.getElementById("cart");
+const userOrders = document.getElementById("userOrders");
+const adminOrders = document.getElementById("adminOrders");
 addProductBtn.style.display = "none";
+adminOrders.style.display = "none";
+userOrders.style.display = "none";
 var userId = 0;
 
 window.addEventListener("load", function (event) {
@@ -18,14 +22,16 @@ window.addEventListener("load", function (event) {
       if (data.role == "admin") {
         addProductBtn.style.display = "block";
         cart.style.display = "none";
+        adminOrders.style.display = "block";
       } else {
         addProductBtn.style.display = "none";
         cart.style.display = "block";
+        userOrders.style.display = "block";
       }
     })
     .catch((error) => console.error("Ошибка", error));
 
-  fetch("/catalog/get/products/all", {
+  fetch("/catalog/product/get/all", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -65,6 +71,16 @@ addProductBtn.addEventListener("click", function (event) {
 cart.addEventListener("click", function (event) {
   event.preventDefault();
   window.location.href = "/user/cart";
+});
+
+adminOrders.addEventListener("click", function (event) {
+  event.preventDefault();
+  window.location.href = "/admin/order";
+});
+
+userOrders.addEventListener("click", function (event) {
+  event.preventDefault();
+  window.location.href = "/user/order";
 });
 
 function addThisProduct(productId) {

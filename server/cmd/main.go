@@ -8,10 +8,11 @@ import (
 	"log"
 	"os"
 	"os/signal"
-	"server/handler"
-	"server/repository"
-	"server/router"
-	"server/service"
+	"server/internal/handler"
+	"server/internal/repository"
+	"server/internal/router"
+	"server/internal/service"
+
 	"syscall"
 )
 
@@ -72,7 +73,7 @@ func main() {
 }
 
 func initConfig() error {
-	viper.AddConfigPath("configuration")
+	viper.AddConfigPath("internal/configuration")
 	viper.SetConfigName("configuration")
 	return viper.ReadInConfig()
 }
