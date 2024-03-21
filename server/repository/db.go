@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )
@@ -24,7 +25,8 @@ type Database struct {
 }
 
 func NewDatabase(conf DatabaseConfig) (*Database, error) {
-	db, err := sqlx.Open("postgres", "host=ps-psql port=5432 user=postgres password=Ertyu55555 dbname=online-store-db sslmode=disable")
+	db, err := sqlx.Open("postgres",
+		fmt.Sprintf(connStr, conf.Host, conf.Port, conf.User, conf.Password, conf.DBName, conf.SSLMode))
 	if err != nil {
 		return nil, err
 	}
@@ -35,9 +37,10 @@ func (d *Database) GetDB() *sqlx.DB {
 	return d.db
 }
 
-func (d *Database) CloseDB() {
+func (d *Database) CloseDB() error {
 	err := d.db.Close()
 	if err != nil {
-		return
+		return err
 	}
+	return nil
 }
