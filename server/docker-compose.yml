@@ -13,8 +13,8 @@ services:
     container_name: ps-psql
     environment:
       - POSTGRES_DB=online-store-db
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=Ertyu55555
+      - POSTGRES_USER=sabina
+      - POSTGRES_PASSWORD=postgres
     volumes:
       - ./data:/var/lib/postgresql/data
       - ./db_description:/docker-entrypoint-initdb.d

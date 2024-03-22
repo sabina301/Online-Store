@@ -16,4 +16,13 @@ migrateup:
 migratedown:
 	migrate -path ./schema -database 'postgres://postgres:Ertyu55555@localhost:5432/online-store-db?sslmode=disable' down
 
+build:
+	docker build -t online-store:local .
+
+run:
+	docker-compose up app
+
+build-compose:
+	docker-compose build app
+
 .PHONY: postgresinit
